@@ -9,7 +9,7 @@
         function scrollAdv(){
             var imgScroll=document.getElementById("imgScroll");
             imgScroll.src="img/"+i+".jpg";
-            for(var j=1;j<=3;j++){
+            for(var j=1;j<=5;j++){
                 var num=document.getElementById("num_"+j);
                 if(i==j){
                     num.style.color="green";
@@ -21,7 +21,7 @@
                 }
             }
             i++;
-            if(i>3){
+            if(i>5){
                 i=1;
             }
             setTimeout("scrollAdv()",1000)
@@ -38,6 +38,9 @@
             <li id="num_1" onmouseover="overNumber(1)">1</li>
             <li id="num_2" onmouseover="overNumber(2)">2</li>
             <li id="num_3" onmouseover="overNumber(3)">3</li>
+            <li id="num_4" onmouseover="overNumber(4)">3</li>
+            <li id="num_5" onmouseover="overNumber(5)">3</li>
+
 
         </ul>
     </div>
