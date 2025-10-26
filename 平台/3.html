@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数牧易融通 - 金融机构端</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a6dfc 0%, #0d4fc2 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        .dashboard {
+            padding: 20px;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .welcome-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .welcome-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stat-trend {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .trend-up {
+            color: #4cd964;
+        }
+
+        .trend-down {
+            color: #ff3b30;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin: 25px 0 15px 0;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .see-all {
+            font-size: 14px;
+            color: #1a6dfc;
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .function-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .function-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .function-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .icon-1 {
+            background: linear-gradient(135deg, #ff7b54 0%, #ff5e33 100%);
+        }
+
+        .icon-2 {
+            background: linear-gradient(135deg, #1a6dfc 0%, #0d4fc2 100%);
+        }
+
+        .icon-3 {
+            background: linear-gradient(135deg, #4cd964 0%, #2ac845 100%);
+        }
+
+        .icon-4 {
+            background: linear-gradient(135deg, #8e7cc3 0%, #6d5ba6 100%);
+        }
+
+        .icon-5 {
+            background: linear-gradient(135deg, #ffd166 0%, #ffc043 100%);
+        }
+
+        .function-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .alert-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #ff7b54;
+        }
+
+        .alert-title {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .alert-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .pending-list {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .pending-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .pending-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .pending-item:last-child {
+            border-bottom: none;
+        }
+
+        .pending-info {
+            flex: 1;
+        }
+
+        .pending-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .pending-detail {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .pending-action {
+            background: #1a6dfc;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .risk-indicator {
+            display: flex;
+            align-items: center;
+            margin-top: 5px;
+        }
+
+        .risk-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+
+        .risk-low {
+            background: #4cd964;
+        }
+
+        .risk-medium {
+            background: #ffd166;
+        }
+
+        .risk-high {
+            background: #ff7b54;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #1a6dfc;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .main-content {
+            padding-bottom: 70px;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .chart-placeholder {
+            height: 120px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 14px;
+        }
+         </style>
+        </head>
+        
+        <body>
+            <!-- 顶部导航 -->
+            <div class="header">
+                <div class="logo">
+                    <div class="logo-icon">数</div>
+                    <div class="logo-text">数牧易融通</div>
+                </div>
+                <div class="user-info">
+                    <div class="user-avatar">
+                        <i class="fas fa-building"></i>
+                    </div>
+                    <div>某某银行</div>
+                </div>
+            </div>
+        
+            <!-- 主内容区 -->
+            <div class="main-content">
+                <div class="dashboard">
+                    <!-- 欢迎卡片 -->
+                    <div class="welcome-card">
+                        <div class="welcome-title">欢迎回来!</div>
+                        <div class="welcome-subtitle">今日有3个新的贷款申请待审批，请及时处理。</div>
+                    </div>
+        
+                    <!-- 数据统计 -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-title">授信总额</div>
+                            <div class="stat-value">8,650<span style="font-size: 16px;">万</span></div>
+                            <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 较上月增长12%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">在贷余额</div>
+                            <div class="stat-value">5,230<span style="font-size: 16px;">万</span></div>
+                            <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 较上月增长8%</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">不良率</div>
+                            <div class="stat-value">0.85<span style="font-size: 16px;">%</span></div>
+                            <div class="stat-trend trend-down"><i class="fas fa-arrow-down"></i> 低于行业平均</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-title">待审批</div>
+                            <div class="stat-value">23<span style="font-size: 16px;">笔</span></div>
+                            <div class="stat-trend"><i class="fas fa-clock"></i> 3笔加急</div>
+                        </div>
+                    </div>
+        
+                    <!-- 资产分布图表 -->
+                    <div class="chart-container">
+                        <div class="chart-title">授信资产分布</div>
+                        <div class="chart-placeholder">
+                            <i class="fas fa-chart-pie"></i> 资产分布饼图 - 区域:华东42% 华北28% 西南20% 其他10%
+                        </div>
+                    </div>
+        
+                    <!-- 功能入口 -->
+                    <div class="section-title">
+                        核心功能
+                        <span class="see-all">全部功能</span>
+                    </div>
+                    <div class="function-grid">
+                        <div class="function-card">
+                            <div class="function-icon icon-1">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="function-name">授信总览</div>
+                        </div>
+                        <div class="function-card">
+                            <div class="function-icon icon-2">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div class="function-name">贷款审批</div>
+                        </div>
+                        <div class="function-card">
+                            <div class="function-icon icon-3">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="function-name">风险监控</div>
+                        </div>
+                        <div class="function-card">
+                            <div class="function-icon icon-4">
+                                <i class="fas fa-balance-scale"></i>
+                            </div>
+                            <div class="function-name">资产处置</div>
+                        </div>
+                        <div class="function-card">
+                            <div class="function-icon icon-5">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="function-name">业务报表</div>
+                        </div>
+                        <div class="function-card">
+                            <div class="function-icon icon-1">
+                                <i class="fas fa-cog"></i>
+                            </div>
+                            <div class="function-name">系统设置</div>
+                        </div>
+                    </div>
+        
+                    <!-- 预警信息 -->
+                    <div class="section-title">风险预警</div>
+                    <div class="alert-card">
+                        <div class="alert-title"><i class="fas fa-exclamation-triangle"></i> 二级预警：资产价值波动</div>
+                        <div class="alert-content">5个养殖户的生猪资产价值下降超过15%，建议加强监控并联系客户。</div>
+                    </div>
+        
+                    <!-- 待处理列表 -->
+                    <div class="section-title">待处理申请</div>
+                    <div class="pending-list">
+                        <div class="pending-title">贷款审批待处理</div>
+                        <div class="pending-item">
+                            <div class="pending-info">
+                                <div class="pending-name">张氏养殖场</div>
+                                <div class="pending-detail">申请金额：80万元 | 期限：12个月</div>
+                                <div class="risk-indicator">
+                                    <div class="risk-dot risk-low"></div>
+                                    <span style="font-size: 12px; color: #666;">低风险</span>
+                                </div>
+                            </div>
+                            <button class="pending-action">审批</button>
+                        </div>
+                        <div class="pending-item">
+                            <div class="pending-info">
+                                <div class="pending-name">李氏生态农场</div>
+                                <div class="pending-detail">申请金额：120万元 | 期限：18个月</div>
+                                <div class="risk-indicator">
+                                    <div class="risk-dot risk-medium"></div>
+                                    <span style="font-size: 12px; color: #666;">中风险</span>
+                                </div>
+                            </div>
+                            <button class="pending-action">审批</button>
+                        </div>
+                        <div class="pending-item">
+                            <div class="pending-info">
+                                <div class="pending-name">王庄合作社</div>
+                                <div class="pending-detail">申请金额：200万元 | 期限：24个月</div>
+                                <div class="risk-indicator">
+                                    <div class="risk-dot risk-high"></div>
+                                    <span style="font-size: 12px; color: #666;">高风险</span>
+                                </div>
+                            </div>
+                            <button class="pending-action">审批</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- 底部导航 -->
+            <div class="navigation">
+                <div class="nav-item active">
+                    <div class="nav-icon"><i class="fas fa-home"></i></div>
+                    <div>首页</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-list-alt"></i></div>
+                    <div>业务</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-chart-bar"></i></div>
+                    <div>风控</div>
+                </div>
+                <div class="nav-item">
+                    <div class="nav-icon"><i class="fas fa-user"></i></div>
+                    <div>我的</div>
+                </div>
+            </div>
+        
+            <script>
+                // 模拟点击功能卡片跳转到对应页面
+                document.querySelectorAll('.function-card').forEach(card => {
+                    card.addEventListener('click', function () {
+                        const functionName = this.querySelector('.function-name').textContent;
+                        alert(`正在跳转到${functionName}页面...`);
+                        // 实际应用中这里应该是页面跳转逻辑
+                    });
+                });
+
+                // 审批按钮点击事件
+                document.querySelectorAll('.pending-action').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const farmName = this.closest('.pending-item').querySelector('.pending-name').textContent;
+                        alert(`开始审批${farmName}的贷款申请`);
+                        // 实际应用中这里应该是打开审批页面的逻辑
+                    });
+                });
+
+                // 底部导航切换
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.addEventListener('click', function () {
+                        document.querySelectorAll('.nav-item').forEach(nav => {
+                            nav.classList.remove('active');
+                        });
+                        this.classList.add('active');
+
+                        const navText = this.querySelector('div:last-child').textContent;
+                        alert(`切换到${navText}页面`);
+                        // 实际应用中这里应该是页面内容切换逻辑
+                    });
+                });
+            </script>
+        </body>
+        
+       

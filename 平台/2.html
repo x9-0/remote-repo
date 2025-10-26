@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数牧易融通 - 养殖户端</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a6dfc 0%, #0d4fc2 100%);
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+
+        .dashboard {
+            padding: 20px;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .welcome-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .welcome-subtitle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-title {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .stat-trend {
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        .trend-up {
+            color: #4cd964;
+        }
+
+        .trend-down {
+            color: #ff3b30;
+        }
+
+        .section-title {
+            font-size: 18px;
+            margin: 25px 0 15px 0;
+            color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .see-all {
+            font-size: 14px;
+            color: #1a6dfc;
+        }
+
+        .function-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .function-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s;
+        }
+
+        .function-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .function-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-size: 24px;
+            color: white;
+        }
+
+        .icon-1 {
+            background: linear-gradient(135deg, #4cd964 0%, #2ac845 100%);
+        }
+
+        .icon-2 {
+            background: linear-gradient(135deg, #ff7b54 0%, #ff5e33 100%);
+        }
+
+        .icon-3 {
+            background: linear-gradient(135deg, #1a6dfc 0%, #0d4fc2 100%);
+        }
+
+        .icon-4 {
+            background: linear-gradient(135deg, #ffd166 0%, #ffc043 100%);
+        }
+
+        .icon-5 {
+            background: linear-gradient(135deg, #8e7cc3 0%, #6d5ba6 100%);
+        }
+
+        .function-name {
+            font-size: 15px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .alert-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #ff7b54;
+        }
+
+        .alert-title {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #333;
+        }
+
+        .alert-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .market-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .market-title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .market-price {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .price-label {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .price-value {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .nav-item.active {
+            color: #1a6dfc;
+        }
+
+        .nav-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .main-content {
+            padding-bottom: 70px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 顶部导航 -->
+    <div class="header">
+        <div class="logo">
+            <div class="logo-icon">数</div>
+            <div class="logo-text">数牧易融通</div>
+        </div>
+        <div class="user-info">
+            <div class="user-avatar">
+                <i class="fas fa-user"></i>
+            </div>
+            <div>张养殖户</div>
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-content">
+        <div class="dashboard">
+            <!-- 欢迎卡片 -->
+            <div class="welcome-card">
+                <div class="welcome-title">欢迎回来，张先生！</div>
+                <div class="welcome-subtitle">今日养殖场一切正常，祝您工作愉快！</div>
+            </div>
+
+            <!-- 数据统计 -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-title">当前存栏</div>
+                    <div class="stat-value">1,258<span style="font-size: 16px;">头</span></div>
+                    <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 较上月增长5%</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">平均日增重</div>
+                    <div class="stat-value">0.85<span style="font-size: 16px;">kg</span></div>
+                    <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 达到优秀水平</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">资产估值</div>
+                    <div class="stat-value">386<span style="font-size: 16px;">万</span></div>
+                    <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 近期价格上涨</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-title">信用分数</div>
+                    <div class="stat-value">86<span style="font-size: 16px;">分</span></div>
+                    <div class="stat-trend trend-up"><i class="fas fa-arrow-up"></i> 良好</div>
+                </div>
+            </div>
+
+            <!-- 功能入口 -->
+            <div class="section-title">
+                核心功能
+                <span class="see-all">全部功能</span>
+            </div>
+            <div class="function-grid">
+                <div class="function-card">
+                    <div class="function-icon icon-1">
+                        <i class="fas fa-piggy-bank"></i>
+                    </div>
+                    <div class="function-name">数字牧场</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon icon-2">
+                        <i class="fas fa-hand-holding-usd"></i>
+                    </div>
+                    <div class="function-name">融资服务</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon icon-3">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="function-name">智能管家</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon icon-4">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="function-name">保险中心</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon icon-5">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <div class="function-name">订单市场</div>
+                </div>
+                <div class="function-card">
+                    <div class="function-icon icon-1">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="function-name">数据分析</div>
+                </div>
+            </div>
+
+            <!-- 预警信息 -->
+            <div class="section-title">预警提醒</div>
+            <div class="alert-card">
+                <div class="alert-title"><i class="fas fa-exclamation-triangle"></i> 温度异常提醒</div>
+                <div class="alert-content">3号猪舍温度超过28℃，建议调整通风系统。系统已自动记录，持续监控中。</div>
+            </div>
+
+            <!-- 市场行情 -->
+            <div class="section-title">今日行情</div>
+            <div class="market-card">
+                <div class="market-title">生猪市场价格（元/公斤）</div>
+                <div class="market-price">
+                    <div class="price-label">本地均价</div>
+                    <div class="price-value">16.8</div>
+                </div>
+                <div class="market-price">
+                    <div class="price-label">全国均价</div>
+                    <div class="price-value">17.2</div>
+                </div>
+                <div class="market-price">
+                    <div class="price-label">较昨日</div>
+                    <div class="price-value trend-up">+0.3</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航 -->
+    <div class="navigation">
+        <div class="nav-item active">
+            <div class="nav-icon"><i class="fas fa-home"></i></div>
+            <div>首页</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-chart-bar"></i></div>
+            <div>数据</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-wallet"></i></div>
+            <div>金融</div>
+        </div>
+        <div class="nav-item">
+            <div class="nav-icon"><i class="fas fa-user"></i></div>
+            <div>我的</div>
+        </div>
+    </div>
+
+    <script>
+        // 模拟点击功能卡片跳转到对应页面
+        document.querySelectorAll('.function-card').forEach(card => {
+            card.addEventListener('click', function () {
+                const functionName = this.querySelector('.function-name').textContent;
+                alert(`正在跳转到${functionName}页面...`);
+                // 实际应用中这里应该是页面跳转逻辑
+            });
+        });
+
+        // 底部导航切换
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function () {
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                this.classList.add('active');
+
+                const navText = this.querySelector('div:last-child').textContent;
+                alert(`切换到${navText}页面`);
+                // 实际应用中这里应该是页面内容切换逻辑
+            });
+        });
+    </script>
+</body>
+
+</html>
