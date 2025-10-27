@@ -1,48 +1,385 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
-    <title>回忆</title>
-    <link rel="stylesheet" href="scroll.css" type="text/css">
-    <script type="text/javascript">
-        var i=1;
-        function scrollAdv(){
-            var imgScroll=document.getElementById("imgScroll");
-            imgScroll.src="img/"+i+".jpg";
-            for(var j=1;j<=5;j++){
-                var num=document.getElementById("num_"+j);
-                if(i==j){
-                    num.style.color="green";
-                    num.style.backgroundColor="#efefef"
-                }else{
-                    num.style.color = "white";
-                    num.style.backgroundColor = "gray";
-                    
-                }
-            }
-            i++;
-            if(i>5){
-                i=1;
-            }
-            setTimeout("scrollAdv()",1000)
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数牧易融通 - 登录</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
         }
-        function overNum(num){
-            i=num;
+
+        body {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f7ff 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
         }
-    </script>
+
+        .login-container {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .login-header {
+            background: linear-gradient(135deg, #1a6dfc 0%, #0d4fc2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            opacity: 0.9;
+        }
+
+        .login-content {
+            padding: 30px;
+        }
+
+        .identity-selection {
+            margin-bottom: 30px;
+        }
+
+        .identity-title {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .identity-options {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .identity-option {
+            border: 2px solid #e8e8e8;
+            border-radius: 12px;
+            padding: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        .identity-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .identity-option.active {
+            border-color: #1a6dfc;
+            background-color: rgba(26, 109, 252, 0.05);
+        }
+
+        .farmer:hover {
+            border-color: #4cd964;
+            box-shadow: 0 8px 20px rgba(76, 217, 100, 0.2);
+        }
+
+        .farmer.active {
+            border-color: #4cd964;
+            background-color: rgba(76, 217, 100, 0.05);
+        }
+
+        .institution:hover {
+            border-color: #ff7b54;
+            box-shadow: 0 8px 20px rgba(255, 123, 84, 0.2);
+        }
+
+        .institution.active {
+            border-color: #ff7b54;
+            background-color: rgba(255, 123, 84, 0.05);
+        }
+
+        .option-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 28px;
+            color: white;
+        }
+
+        .farmer .option-icon {
+            background: linear-gradient(135deg, #4cd964 0%, #2ac845 100%);
+        }
+
+        .institution .option-icon {
+            background: linear-gradient(135deg, #ff7b54 0%, #ff5e33 100%);
+        }
+
+        .option-content h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 8px;
+            
+        }
+        .option-content a{
+            text-decoration: none;
+        }
+
+        .option-content p {
+            font-size: 15px;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .form-title {
+            font-size: 22px;
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px 18px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(26, 109, 252, 0.2);
+        }
+
+        .farmer-form input:focus {
+            border-color: #4cd964;
+        }
+
+        .institution-form input:focus {
+            border-color: #ff7b54;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 16px;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .farmer-btn {
+            background: linear-gradient(135deg, #4cd964 0%, #2ac845 100%);
+        }
+
+        .institution-btn {
+            background: linear-gradient(135deg, #ff7b54 0%, #ff5e33 100%);
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .farmer-btn:hover {
+            box-shadow: 0 5px 15px rgba(76, 217, 100, 0.4);
+        }
+
+        .institution-btn:hover {
+            box-shadow: 0 5px 15px rgba(255, 123, 84, 0.4);
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #888;
+        }
+
+        .footer-text a {
+            color: #1a6dfc;
+            text-decoration: none;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: #1a6dfc;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 5px 0;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        .identity-note {
+            font-size: 13px;
+            color: #888;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .additional-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .additional-options a {
+            color: #1a6dfc;
+            text-decoration: none;
+        }
+
+        .additional-options a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body onload="scrollAdv()">
-    <div id="container">
-        <img id="imgScroll" src="img/1.jpg" alt="">
-        <ul id="advNum">
-            <li id="num_1" onmouseover="overNumber(1)">1</li>
-            <li id="num_2" onmouseover="overNumber(2)">2</li>
-            <li id="num_3" onmouseover="overNumber(3)">3</li>
-            <li id="num_4" onmouseover="overNumber(4)">3</li>
-            <li id="num_5" onmouseover="overNumber(5)">3</li>
 
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">数牧易融通</div>
+            <div class="subtitle">生猪产业可信金融风控平台</div>
+        </div>
 
-        </ul>
-    </div>
+        <div class="login-content">
+            <!-- 身份选择部分 -->
+            <div class="identity-selection" id="identitySelection">
+                <div class="identity-title">请选择您的身份</div>
+
+                <div class="identity-options">
+                    <div class="identity-option farmer" data-identity="farmer">
+                        <div class="option-icon">🐖</div>
+                        <div class="option-content">
+                           <a href="养殖户.html" target="_blank"> <h3>我是养殖户</h3></a>
+                            <p>申请融资贷款<br>管理数字牧场<br>查看信用资产</p>
+                        </div>
+                    </div>
+
+                    <div class="identity-option institution" data-identity="institution">
+                        <div class="option-icon">🏦</div>
+                        <div class="option-content">
+                            <a href="金融机构.html" target="_blank"><h3>我是金融机构</h3></a>
+                            <p>审核贷款申请<br>监控资产风险<br>管理信贷业务</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="identity-note">请放心选择，以后可在设置中心更改</div>
+            </div>
+
+           
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // 获取DOM元素
+            const identitySelection = document.getElementById('identitySelection');
+            const farmerLogin = document.getElementById('farmerLogin');
+            const institutionLogin = document.getElementById('institutionLogin');
+            const backFromFarmer = document.getElementById('backFromFarmer');
+            const backFromInstitution = document.getElementById('backFromInstitution');
+            const identityOptions = document.querySelectorAll('.identity-option');
+
+            // 身份选择事件
+            identityOptions.forEach(option => {
+                option.addEventListener('click', function () {
+                    const identity = this.getAttribute('data-identity');
+
+                    // 显示对应的登录表单
+                    if (identity === 'farmer') {
+                        identitySelection.style.display = 'none';
+                        farmerLogin.style.display = 'block';
+                    } else if (identity === 'institution') {
+                        identitySelection.style.display = 'none';
+                        institutionLogin.style.display = 'block';
+                    }
+                });
+            });
+
+            // 返回按钮事件
+            backFromFarmer.addEventListener('click', function () {
+                farmerLogin.style.display = 'none';
+                identitySelection.style.display = 'block';
+            });
+
+            backFromInstitution.addEventListener('click', function () {
+                institutionLogin.style.display = 'none';
+                identitySelection.style.display = 'block';
+            });
+
+            // 登录按钮事件
+            document.querySelector('.farmer-btn').addEventListener('click', function () {
+                const account = document.getElementById('farmerAccount').value;
+                const password = document.getElementById('farmerPassword').value;
+
+                if (!account || !password) {
+                    alert('请输入完整的登录信息');
+                    return;
+                }
+
+                // 这里可以添加实际的登录逻辑
+                alert('养殖户登录成功！正在跳转至数字牧场...');
+            });
+
+            document.querySelector('.institution-btn').addEventListener('click', function () {
+                const account = document.getElementById('institutionAccount').value;
+                const password = document.getElementById('institutionPassword').value;
+
+                if (!account || !password) {
+                    alert('请输入完整的登录信息');
+                    return;
+                }
+
+                // 这里可以添加实际的登录逻辑
+                alert('金融机构登录成功！正在跳转至风控管理平台...');
+            });
+        });
+    </script>
 </body>
+
 </html>

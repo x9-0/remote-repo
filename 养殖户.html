@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数牧易融通平台 -养殖户端</title>
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2E7D32',      // 深绿色主色调
+                        secondary: '#4CAF50',    // 中绿色辅助色
+                        tertiary: '#81C784',     // 浅绿色
+                        accent: '#FFB74D',       // 橙色强调色
+                        warning: '#FF5252',      // 红色警告
+                        light: '#F1F8E9',        // 超浅绿背景
+                        dark: '#1B5E20',         // 暗色文本
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .transition-all-300 {
+                transition: all 300ms ease-in-out;
+            }
+            .card-gradient {
+                background: linear-gradient(135deg, var(--tw-gradient-from) 0%, var(--tw-gradient-to) 100%);
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="min-h-screen font-sans text-gray-800 bg-[url(images/logo.jpg)] bg-cover bg-center bg-opacity-20">
+    <!-- 顶部导航栏 -->
+    <header class="shadow-md sticky top-0 z-50 bg-cover bg-center bg-opacity-80">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center py-3">
+                <!-- 左侧 Logo 和标题 -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
+                    <img src="images/微信图片_20251026225951_38_6.jpg" alt="">
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-primary" style="text-shadow: -1px -1px 0 #000,1px -px 0 #000,-px 1px 0 #000,1px 1px 0 #000">数牧易融通平台</h1>
+                        <p class="text-xs text-gray-500">养殖户管理系统</p>
+                    </div>
+                </div>
+
+                <!-- 右侧用户信息和通知 -->
+                <div class="flex items-center space-x-6">
+                    <!-- 搜索框 -->
+                    <div class="hidden md:flex items-center bg-gray-100 rounded-full px-3 py-1.5">
+                        <i class="fa fa-search text-gray-400 mr-2"></i>
+                        <input type="text" placeholder="搜索..."
+                            class="bg-transparent border-none focus:outline-none text-sm w-40">
+                    </div>
+
+                    <!-- 通知图标 -->
+                    <div class="relative">
+                        <button class="text-gray-500 hover:text-primary transition-all-300">
+                            <i class="fa fa-bell text-xl"></i>
+                            <span
+                                class="absolute -top-1 -right-1 bg-warning text-white text-xs rounded-full w-4 h-4 flex items-center justify-center">3</span>
+                        </button>
+                    </div>
+
+                    <!-- 用户头像 -->
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 bg-gray-200 rounded-full overflow-hidden">
+                            <!-- 预留用户头像位置 -->
+                            <div class="w-full h-full flex items-center justify-center text-gray-400">
+                                <i class="fa fa-user"></i>
+                            </div>
+                        </div>
+                        <span class="hidden md:inline text-sm font-bold">某养殖户</span>
+                        <i class="fa fa-angle-down-angle-down text-black-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <div class="flex">
+        <!-- 左侧导航 -->
+        <aside class="w-16 md:w-64 bg-white shadow-md h-[calc(100vh-64px)] sticky top-16">
+            <nav class="py-4">
+                <ul>
+                    <li class="mb-1">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-primary bg-green-50 border-l-4 border-primary">
+                            <i class="fa fa-dashboard text-xl md:text-base"></i>
+                            <span class="ml-3 hidden md:inline">首页</span>
+                        </a>
+                    </li>
+                    <li class="mb-1">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-gray-600 hover:bg-green-50 hover:text-primary transition-all-300">
+                            <i class="fa fa-bar-chart text-xl md:text-base"></i>
+                            <span class="ml-3 hidden md:inline font-serif">数字牧场看板</span>
+                        </a>
+                    </li>
+                    <li class="mb-1">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-gray-600 hover:bg-green-20 hover:text-primary transition-all-300">
+                            <i class="fa fa-money text-xl md:text-base"></i>
+                            <span class="ml-3 hidden md:inline">融资服务大厅</span>
+                        </a>
+                    </li>
+                    <li class="mb-1">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-gray-600 hover:bg-green-50 hover:text-primary transition-all-300">
+                            <i class="fa fa-calendar-check-o text-xl md:text-base"></i>
+                            <span class="ml-3 hidden md:inline">智能生产管家</span>
+                        </a>
+                    </li>
+                    <li class="mb-1">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-gray-600 hover:bg-green-50 hover:text-primary transition-all-300">
+                            <i class="fa fa-shield text-xl md:text-base"></i>
+                            <span class="ml-3 hidden md:inline">保险中心</span>
+                        </a>
+                    </li>
+                    <li class="mb-1">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-gray-600 hover:bg-green-50 hover:text-primary transition-all-300">
+                            <i class="fa fa-shopping-cart text-xl md:text-base"></i>
+                            <span class="ml-3 hidden md:inline">订单与市场</span>
+                        </a>
+                    </li>
+                    <li class="mb-1">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-gray-600 hover:bg-green-50 hover:text-primary transition-all-300">
+                            <i class="fa fa-cog text-xl md:text-base"></i>
+                            <span class="ml-3 hidden md:inline">系统设置</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- 主内容 -->
+        <main class="flex-1 p-4 md:p-6 overflow-y-auto h-[calc(100vh-64px)]">
+            <!-- 页面标题 -->
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">数字牧场看板</h2>
+                <p class="text-gray-500">欢迎回来，张养殖户！以下是您的牧场最新数据概览。</p>
+            </div>
+
+            <!-- 核心指标卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                <!-- 存栏头数 -->
+                <div class="bg-white rounded-xl shadow-card p-4 hover:shadow-card-hover transition-all-300">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm">存栏头数</p>
+                            <h3 class="text-2xl font-bold mt-1">1,248</h3>
+                            <p class="text-green-500 text-sm mt-1">
+                                <i class="fa fa-arrow-up"></i> 3.2% <span class="text-gray-400">较上月</span>
+                            </p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-primary">
+                            <i class="fa fa-pagelines"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 h-10">
+                        <canvas id="inventoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 预估总资产 -->
+                <div class="bg-white rounded-xl shadow-card p-4 hover:shadow-card-hover transition-all-300">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm">预估总资产</p>
+                            <h3 class="text-2xl font-bold mt-1">¥1,872,000</h3>
+                            <p class="text-green-500 text-sm mt-1">
+                                <i class="fa fa-arrow-up"></i> 5.7% <span class="text-gray-400">较上月</span>
+                            </p>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                            <i class="fa fa-money"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 h-10">
+                        <canvas id="assetChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 平均日增重 -->
+                <div class="bg-white rounded-xl shadow-card p-4 hover:shadow-card-hover transition-all-300">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm">平均日增重</p>
+                            <h3 class="text-2xl font-bold mt-1">1.24 kg</h3>
+                            <p class="text-red-500 text-sm mt-1">
+                                <i class="fa fa-arrow-down"></i> 0.8% <span class="text-gray-400">较上月</span>
+                            </p>
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-500">
+                            <i class="fa fa-line-chart"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 h-10">
+                        <canvas id="weightChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 料肉比 -->
+                <div class="bg-white rounded-xl shadow-card p-4 hover:shadow-card-hover transition-all-300">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 text-sm">料肉比</p>
+                            <h3 class="text-2xl font-bold mt-1">2.85:1</h3>
+                            <p class="text-green-500 text-sm mt-1">
+                                <i class="fa fa-arrow-down"></i> 2.1% <span class="text-gray-400">较上月</span>
+                            </p>
+                        </div>
+                        <div
+                            class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-500">
+                            <i class="fa fa-balance-scale"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 h-10">
+                        <canvas id="feedChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 资产价值看板和环境健康度 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                <!-- 资产价值看板 -->
+                <div class="bg-white rounded-xl shadow-card p-4 lg:col-span-2 hover:shadow-card-hover transition-all-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-gray-800">资产价值看板</h3>
+                    </div>
+                    <div class="h-64">
+                        <canvas id="assetValueChart"></canvas>
+                       
+                    </div>
+                </div>
+
+                <!-- 环境健康度 -->
+                <div class="bg-white rounded-xl shadow-card p-4 hover:shadow-card-hover transition-all-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-gray-800">环境健康度</h3>
+                        <button class="text-primary text-sm hover:underline">查看详情</button>
+                    </div>
+                    <div class="flex justify-center mb-6">
+                        <div class="relative w-40 h-40">
+                            <canvas id="healthGauge"></canvas>
+                            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                <span class="text-3xl font-bold text-primary">85</span>
+                                <span class="text-sm text-gray-500">健康指数</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>温度</span>
+                                <span class="text-green-500">正常</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>湿度</span>
+                                <span class="text-yellow-500">偏高</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-yellow-500 h-2 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>氨气浓度</span>
+                                <span class="text-green-500">正常</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 45%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>通风状况</span>
+                                <span class="text-green-500">良好</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 预警信息中心和功能模块 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- 预警信息中心 -->
+                <div class="bg-white rounded-xl shadow-card p-4 hover:shadow-card-hover transition-all-300">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-bold text-gray-800">预警信息中心</h3>
+                        <span class="px-2 py-1 text-xs bg-red-100 text-red-600 rounded-full">3 条新预警</span>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="p-3 bg-red-50 border-l-4 border-red-500 rounded-r-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium text-red-700">红色预警</span>
+                                <span class="text-xs text-gray-500">10分钟前</span>
+                            </div>
+            
+                        </div>
+                        <div class="p-3 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium text-yellow-700">黄色预警</span>
+                                <span class="text-xs text-gray-500">2小时前</span>
+                            </div>
+                          
+                        </div>
+                        <div class="p-3 bg-yellow-50 border-l-4 border-yellow-500 rounded-r-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium text-yellow-700">黄色预警</span>
+                                <span class="text-xs text-gray-500">5小时前</span>
+                            </div>
+                 
+                        </div>
+                        <div class="p-3 bg-green-50 border-l-4 border-green-500 rounded-r-lg">
+                            <div class="flex justify-between">
+                                <span class="font-medium text-green-700">绿色提示</span>
+                                <span class="text-xs text-gray-500">昨天</span>
+                            </div>
+            
+                        </div>
+                    </div>
+                    <button class="w-full mt-4 py-2 text-sm text-primary hover:text-primary-dark transition-all-300">
+                        查看全部预警
+                    </button>
+                </div>
+
+                <!-- 功能模块 -->
+                <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- 融资服务大厅 -->
+                    <div
+                        class="bg-gradient-to-br from-primary to-secondary rounded-xl shadow-card p-4 text-white hover:shadow-card-hover transition-all-300">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg">融资服务大厅</h3>
+                                <p class="text-sm text-green-100 mt-1">透明高效的专属金融服务平台</p>
+                            </div>
+                            <div class="w-10 h-10 rounded-full bg-white bg-opacity-20 flex items-center justify-center">
+                                <i class="fa fa-bank"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 space-y-3">
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">信用分数</span>
+                                <span class="font-bold">826</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">预授信额度</span>
+                                <span class="font-bold">¥500,000</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="text-sm">利率区间</span>
+                                <span class="font-bold">4.2% - 5.8%</span>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full mt-4 py-2 bg-white text-primary rounded-lg font-medium hover:bg-opacity-90 transition-all-300">
+                            查看详情
+                        </button>
+                    </div>
+
+                    <!-- 智能生产管家 -->
+                    <div class="bg-white rounded-xl shadow-card p-4 hover:shadow-card-hover transition-all-300">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-gray-800">智能生产管家</h3>
+                                <p class="text-sm text-gray-500 mt-1">精细化管理的农事作业平台</p>
+                            </div>
+                            <div
+                                class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-500">
+                                <i class="fa fa-calendar-check-o"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 space-y-3">
+                            <div class="flex items-center p-2 bg-blue-50 rounded-lg">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white text-sm">
+                                    1
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium">防疫接种</p>
+                                    <p class="text-xs text-gray-500">今天 14:00 - 16:00</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm">
+                                    2
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium">转栏操作</p>
+                                    <p class="text-xs text-gray-500">明天 09:00 - 11:00</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center p-2 bg-gray-50 rounded-lg">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-gray-400 flex items-center justify-center text-white text-sm">
+                                    3
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm font-medium">饲料调整</p>
+                                    <p class="text-xs text-gray-500">后天 10:00 - 12:00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full mt-4 py-2 border border-primary text-primary rounded-lg text-sm font-medium hover:bg-primary hover:text-white transition-all-300">
+                            查看全部任务
+                        </button>
+                    </div>
+
+                    <!-- 保险中心 -->
+                    <div class="bg-white rounded-xl shadow-card p-4 hover:shadow-card-hover transition-all-300">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-gray-800">保险中心</h3>
+                                <p class="text-sm text-gray-500 mt-1">省钱、省心的一站式风险保障</p>
+                            </div>
+                            <div
+                                class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-500">
+                                <i class="fa fa-shield"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4 space-y-3">
+                            <div class="flex justify-between items-center p-2 bg-green-50 rounded-lg">
+                                <div>
+                                    <p class="text-sm font-medium">政策性农业保险</p>
+                                    <p class="text-xs text-gray-500">已投保 | 有效期至2025-12-31</p>
+                                </div>
+                                <span class="px-2 py-1 text-xs bg-green-100 text-green-600 rounded-full">有效</span>
+                            </div>
+                            <div class="flex justify-between items-center p-2 bg-yellow-50 rounded-lg">
+                                <div>
+                                    <p class="text-sm font-medium">商业养殖保险</p>
+                                    <p class="text-xs text-gray-500">未投保 | 建议购买</p>
+                                </div>
+                                <span class="px-2 py-1 text-xs bg-yellow-100 text-yellow-600 rounded-full">待办理</span>
+                            </div>
+                        </div>
+                        <button
+                            class="w-full mt-4 py-2 border border-primary text-primary rounded-lg text-sm font-medium hover:bg-primary hover:text-white transition-all-300">
+                            查看保险方案
+                        </button>
+                    </div>
+
+                    <!-- 订单与市场 -->
+                    <div class="bg-white rounded-xl shadow-card p-4 hover:shadow-card-hover transition-all-300">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-gray-800">订单与市场</h3>
+                                <p class="text-sm text-gray-500 mt-1">锁定收益、拓展销路的交易平台</p>
+                            </div>
+                            <div
+                                class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center text-orange-500">
+                                <i class="fa fa-shopping-cart"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="text-sm font-medium">当前市场价格</span>
+                                <span class="text-orange-500 font-bold">¥18.5/kg</span>
+                            </div>
+                            <div class="h-20">
+                                <canvas id="priceChart"></canvas>
+                            </div>
+                            <div class="flex justify-between mt-3">
+                                <button
+                                    class="flex-1 py-2 mr-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary-dark transition-all-300">
+                                    查看订单
+                                </button>
+                                <button
+                                    class="flex-1 py-2 border border-primary text-primary rounded-lg text-sm font-medium hover:bg-primary hover:text-white transition-all-300">
+                                    市场行情
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+       
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function () {
+            // 设置Chart.js全局配置
+            Chart.defaults.font.family = "'Inter', 'system-ui', 'sans-serif'";
+            Chart.defaults.color = '#6b7280';
+
+            // 小卡片图表 - 存栏头数
+            const inventoryCtx = document.getElementById('inventoryChart').getContext('2d');
+            new Chart(inventoryCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', '', '', '', '', '', '', ''],
+                    datasets: [{
+                        data: [1150, 1180, 1200, 1190, 1210, 1230, 1220, 1240, 1235, 1245, 1250, 1248],
+                        borderColor: '#2E7D32',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+
+            // 小卡片图表 - 预估总资产
+            const assetCtx = document.getElementById('assetChart').getContext('2d');
+            new Chart(assetCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', '', '', '', '', '', '', ''],
+                    datasets: [{
+                        data: [1720000, 1740000, 1760000, 1750000, 1780000, 1800000, 1820000, 1830000, 1840000, 1850000, 1860000, 1872000],
+                        borderColor: '#3B82F6',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+
+            // 小卡片图表 - 平均日增重
+            const weightCtx = document.getElementById('weightChart').getContext('2d');
+            new Chart(weightCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', '', '', '', '', '', '', ''],
+                    datasets: [{
+                        data: [1.28, 1.27, 1.26, 1.25, 1.26, 1.25, 1.24, 1.23, 1.24, 1.25, 1.24, 1.24],
+                        borderColor: '#F59E0B',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false }
+                    }
+                }
+            });
+
+            // 小卡片图表 - 料肉比
+            const feedCtx = document.getElementById('feedChart').getContext('2d');
+            new Chart(feedCtx, {
+                type: 'line',
+                data: {
+                    labels: ['', '', '', '', '', '', '', '', '', '', '', ''],
+                    datasets: [{
+                        data: [2.95, 2.93, 2.91, 2.90, 2.89, 2.88, 2.87, 2.86, 2.87, 2.86, 2.85, 2.85],
+                        borderColor: '#8B5CF6',
+                        borderWidth: 2,
+                        pointRadius: 0,
+                        tension: 0.4,
+                        fill: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { display: false },
+                        y: { display: false, reverse: true }
+                    }
+                }
+            });
+
+            // 资产价值看板图表
+            const assetValueCtx = document.getElementById('assetValueChart').getContext('2d');
+            new Chart(assetValueCtx, {
+                type: 'line',
+                data: {
+                    labels: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月'],
+                    datasets: [{
+                        label: '资产价值',
+                        data: [1650000, 1680000, 1720000, 1750000, 1780000, 1800000, 1820000, 1840000, 1860000, 1872000],
+                        borderColor: '#2E7D32',
+                        backgroundColor: 'rgba(46, 125, 50, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: '#2E7D32',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function (context) {
+                                    let value = context.raw;
+                                    return '资产价值: ¥' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function (value) {
+                                    return '¥' + (value / 10000) + '万';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 环境健康度仪表盘
+            const healthGaugeCtx = document.getElementById('healthGauge').getContext('2d');
+            new Chart(healthGaugeCtx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [85, 15],
+                        backgroundColor: [
+                            '#4CAF50',
+                            '#F1F8E9'
+                        ],
+                        borderWidth: 0,
+                        circumference: 270,
+                        rotation: 225
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '75%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+
+            // 市场价格图表
+            const priceCtx = document.getElementById('priceChart').getContext('2d');
+            new Chart(priceCtx, {
+                type: 'line',
+                data: {
+                    labels: ['9/27', '9/30', '10/5', '10/10', '10/15', '10/20', '10/25', '10/27'],
+                    datasets: [{
+                        data: [17.2, 17.5, 17.8, 18.1, 18.3, 18.4, 18.5, 18.5],
+                        borderColor: '#F97316',
+                        backgroundColor: 'rgba(249, 115, 22, 0.1)',
+                        borderWidth: 2,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#F97316',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            callbacks: {
+                                label: function (context) {
+                                    let value = context.raw;
+                                    return '价格: ¥' + value + '/kg';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: {
+                                font: { size: 10 }
+                            }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                font: { size: 10 },
+                                callback: function (value) {
+                                    return '¥' + value;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 添加卡片悬停效果
+            const cards = document.querySelectorAll('.shadow-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.classList.add('transform', 'scale-[1.02]');
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.classList.remove('transform', 'scale-[1.02]');
+                });
+            });
+
+            // 导航菜单交互
+            const navItems = document.querySelectorAll('nav a');
+            navItems.forEach(item => {
+                item.addEventListener('click', (e) => {
+                    // 移除所有激活状态
+                    navItems.forEach(nav => {
+                        nav.classList.remove('text-primary', 'bg-green-50', 'border-l-4', 'border-primary');
+                        nav.classList.add('text-gray-600');
+                    });
+
+                    // 添加激活状态
+                    e.currentTarget.classList.add('text-primary', 'bg-green-50', 'border-l-4', 'border-primary');
+                    e.currentTarget.classList.remove('text-gray-600');
+                });
+            });
+        });
+        const ctx = document.getElementById('assetValueChart').getContext('2d');
+
+        const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['在养资产估值', '待售、成熟资产估值', '在途资产估值', '已结算资金', '种质资源估值', '风险准备金'],
+                    datasets: [{
+                       label:'资产估值(万元)',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+    </script>
+</body>
+
+</html>

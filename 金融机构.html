@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数牧易融通平台 -金融端</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <!-- 统一的 Tailwind 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#fef3c7',
+                            100: '#fde68a',
+                            200: '#fcd34d',
+                            300: '#fbbf24',
+                            400: '#f59e0b',
+                            500: '#d97706',
+                            600: '#b45309',
+                            700: '#92400e',
+                            800: '#78350f',
+                            900: '#65a30d',
+                        },
+                        secondary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        },
+                        tertiary: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        light: {
+                            100: '#ffffff',
+                            200: '#f9fafb',
+                            300: '#f3f4f6',
+                            400: '#e5e7eb',
+                            500: '#d1d5db',
+                            600: '#9ca3af',
+                            700: '#6b7280',
+                            800: '#4b5563',
+                            900: '#374151',
+                        },
+                        dark: {
+                            100: '#d1d5db',
+                            200: '#9ca3af',
+                            300: '#6b7280',
+                            400: '#4b5563',
+                            500: '#374151',
+                            600: '#1f2937',
+                            700: '#111827',
+                            800: '#0f172a',
+                            900: '#0a0f1a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'card': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                        'gold': '0 0 15px rgba(251, 191, 36, 0.5)',
+                    },
+                    backgroundImage: {
+                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+            .text-shadow-lg {
+                text-shadow: 0 4px 8px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.08);
+            }
+            .bg-blur {
+                backdrop-filter: blur(8px);
+            }
+            .gold-gradient {
+                background: linear-gradient(135deg, #fde047 0%, #f59e0b 50%, #b45309 100%);
+            }
+            .blue-gradient {
+                background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            }
+            .card-gradient {
+                background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+            }
+            .scrollbar-hide::-webkit-scrollbar {
+                display: none;
+            }
+            .scrollbar-hide {
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="">
+    <!-- 顶部导航栏 -->
+    <header class="shadow-md sticky top-0 z-50 bg-[url(images/header2.jpg)] bg-cover bg-center bg-opacity-80">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+                <div class="w-10 h-10 rounded-lg gold-gradient flex items-center justify-center">
+                    <i class="fa fa-line-chart text-white text-xl"></i>
+                </div>
+                <h1 class="text-xl font-bold text-primary-600">金融机构管理机构</h1>
+            </div>
+            <div class="flex items-center space-x-6">
+                <div class="hidden md:flex items-center space-x-4">
+                    <a href="#" class="text-primary-600 hover:text-primary-500 transition-colors">首页</a>
+                    <a href="#" class="text-light-700 hover:text-primary-600 transition-colors">产品服务</a>
+                    <a href="#" class="text-light-700 hover:text-primary-600 transition-colors">解决方案</a>
+                    <a href="#" class="text-light-700 hover:text-primary-600 transition-colors">关于我们</a>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button
+                        class="bg-primary-600 hover:bg-primary-500 text-white px-4 py-2 rounded-lg transition-colors flex items-center">
+                        <i class="fa fa-user-circle mr-2"></i>
+                        <span>登录</span>
+                    </button>
+                    <button class="md:hidden text-light-700 hover:text-primary-600 transition-colors">
+                        <i class="fa fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="flex-grow flex">
+        <!-- 侧边栏 -->
+        <aside class="w-16 md:w-64 bg-white border-r border-primary-200 flex flex-col shadow-md">
+            <nav class="flex-grow py-6">
+                <ul>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-primary-600 bg-primary-50 border-l-4 border-primary-500">
+                            <i class="fa fa-dashboard text-xl md:mr-3"></i>
+                            <span class="hidden md:inline">数据概览</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-light-700 hover:text-primary-600 hover:bg-primary-50 transition-colors">
+                            <i class="fa fa-money text-xl md:mr-3"></i>
+                            <span class="hidden md:inline">融资服务</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-light-700 hover:text-primary-600 hover:bg-primary-50 transition-colors">
+                            <i class="fa fa-shield text-xl md:mr-3"></i>
+                            <span class="hidden md:inline">风险监控</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-light-700 hover:text-primary-600 hover:bg-primary-50 transition-colors">
+                            <i class="fa fa-file-text text-xl md:mr-3"></i>
+                            <span class="hidden md:inline">信用报告</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#"
+                            class="flex items-center px-4 py-3 text-light-700 hover:text-primary-600 hover:bg-primary-50 transition-colors">
+                            <i class="fa fa-cog text-xl md:mr-3"></i>
+                            <span class="hidden md:inline">系统设置</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="p-4 border-t border-primary-200 hidden md:block">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+                        <i class="fa fa-headphones text-primary-600"></i>
+                    </div>
+                    <div class="ml-3">
+                        <p class="text-sm font-medium text-light-800">需要帮助?</p>
+                        <p class="text-xs text-light-600">联系客服</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- 内容区 -->
+        <div class="flex-grow overflow-y-auto bg-light-100 p-6">
+            <!-- 顶部信息栏 -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8">
+                <div>
+                    <h2 class="text-2xl font-bold text-light-800 mb-2">金融机构端</h2>
+                    <p class="text-light-600">围绕养殖产业核心痛点，提供数据智能与金融科技深度融合的解决方案</p>
+                </div>
+                <div class="mt-4 md:mt-0 flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="搜索..."
+                            class="bg-white border border-light-300 rounded-lg py-2 pl-10 pr-4 text-sm w-full md:w-64 focus:outline-none focus:ring-2 focus:ring-primary-500">
+                        <i class="fa fa-search absolute left-3 top-3 text-light-500"></i>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <span class="text-sm text-light-600">最后更新: 2025-10-27</span>
+                        <button class="text-light-600 hover:text-primary-600 transition-colors">
+                            <i class="fa fa-refresh"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 核心数据指标 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div
+                    class="bg-white rounded-xl p-6 border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-light-600 text-sm font-medium">贷款总金额</h3>
+                        <span class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center">
+                            <i class="fa fa-money text-primary-600"></i>
+                        </span>
+                    </div>
+                    <div class="flex items-end">
+                        <p class="text-2xl font-bold text-light-800">¥ 128.5</p>
+                        <p class="text-lg font-bold text-light-800 ml-1">亿</p>
+                        <span class="ml-auto flex items-center text-tertiary-400 text-sm">
+                            <i class="fa fa-arrow-up mr-1"></i>
+                            <span>8.2%</span>
+                        </span>
+                    </div>
+                    <p class="text-light-500 text-xs mt-2">较上月增长</p>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl p-6 border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-light-600 text-sm font-medium">在贷余额</h3>
+                        <span class="w-10 h-10 rounded-full bg-secondary-100 flex items-center justify-center">
+                            <i class="fa fa-balance-scale text-secondary-600"></i>
+                        </span>
+                    </div>
+                    <div class="flex items-end">
+                        <p class="text-2xl font-bold text-light-800">¥ 86.3</p>
+                        <p class="text-lg font-bold text-light-800 ml-1">亿</p>
+                        <span class="ml-auto flex items-center text-tertiary-400 text-sm">
+                            <i class="fa fa-arrow-up mr-1"></i>
+                            <span>5.7%</span>
+                        </span>
+                    </div>
+                    <p class="text-light-500 text-xs mt-2">较上月增长</p>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl p-6 border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-light-600 text-sm font-medium">贷款户数</h3>
+                        <span class="w-10 h-10 rounded-full bg-tertiary-100 flex items-center justify-center">
+                            <i class="fa fa-users text-tertiary-600"></i>
+                        </span>
+                    </div>
+                    <div class="flex items-end">
+                        <p class="text-2xl font-bold text-light-800">1,248</p>
+                        <p class="text-lg font-bold text-light-800 ml-1">户</p>
+                        <span class="ml-auto flex items-center text-tertiary-400 text-sm">
+                            <i class="fa fa-arrow-up mr-1"></i>
+                            <span>12.3%</span>
+                        </span>
+                    </div>
+                    <p class="text-light-500 text-xs mt-2">较上月增长</p>
+                </div>
+
+                <div
+                    class="bg-white rounded-xl p-6 border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-light-600 text-sm font-medium">风险预警数</h3>
+                        <span class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                            <i class="fa fa-exclamation-triangle text-red-600"></i>
+                        </span>
+                    </div>
+                    <div class="flex items-end">
+                        <p class="text-2xl font-bold text-light-800">32</p>
+                        <p class="text-lg font-bold text-light-800 ml-1">个</p>
+                        <span class="ml-auto flex items-center text-red-400 text-sm">
+                            <i class="fa fa-arrow-up mr-1"></i>
+                            <span>3.2%</span>
+                        </span>
+                    </div>
+                    <p class="text-light-500 text-xs mt-2">较上月增长</p>
+                </div>
+            </div>
+
+            <!-- 产品功能板块 -->
+            <div class="mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-light-800">产品功能板块</h2>
+                    <div class="flex items-center space-x-2">
+                        <button class="text-light-600 hover:text-primary-600 transition-colors">
+                            <i class="fa fa-th-large"></i>
+                        </button>
+                        <button class="text-light-400 hover:text-primary-600 transition-colors">
+                            <i class="fa fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 功能卡片网格 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 授信资产总览 -->
+                    <div
+                        class="bg-white rounded-xl overflow-hidden border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover group">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/6a3d869382344c2f8f8f10e2c86f45f9~tplv-a9rns2rl98-image.image?rcl=2025102720563816DC4CE9E01B75BD410C&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1764161826&x-signature=03I9Y7GvVS3QSokAAzfDLRK122I%3D"
+                                alt="授信资产总览"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <h3 class="text-xl font-bold text-white text-shadow-lg">授信资产总览</h3>
+                                <p class="text-white/90 text-sm">全局风险总览，一眼掌握资产全貌</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="text-light-600 text-sm font-medium mb-2">资产组合总览</h4>
+                                    <p class="text-light-500 text-sm">实时展示通过本平台投放的贷款总金额、在贷余额、贷款户数、地区分布等核心经营指标。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-light-600 text-sm font-medium mb-2">资产健康度分析</h4>
+                                    <p class="text-light-500 text-sm">以可视化图表展示贷款资金的五级分类分布及趋势变化。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-light-600 text-sm font-medium mb-2">实时预警汇总</h4>
+                                    <p class="text-light-500 text-sm">集中展示当前所有触发四级报警的客户列表及报警类型，便于优先处理。</p>
+                                </div>
+                            </div>
+                            <button
+                                class="mt-6 w-full py-2 rounded-lg bg-light-100 hover:bg-primary-600 transition-colors text-primary-600 hover:text-white border border-primary-200 flex items-center justify-center">
+                                <span>查看详情</span>
+                                <i class="fa fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 信用报告中心 -->
+                    <div
+                        class="bg-white rounded-xl overflow-hidden border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover group">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="images/信用报告中心.jpg"
+                                alt="信用报告中心"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <h3 class="text-xl font-bold text-white text-shadow-lg">信用报告中心</h3>
+                                <p class="text-white/90 text-sm">替代传统尽调，提供低成本、高可信的决策依据</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">企业360度可信档案</h4>
+                                    <p class="text-dark-400 text-sm">区块链数据溯源，可一键验证关键经营数据的区块链存证信息，确保数据真实不可篡改。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">物联网数据看板</h4>
+                                    <p class="text-dark-400 text-sm">授权后，可穿透式查看养殖户的实时生产数据流，感受"活"的经营状况。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">多维动态信用报告</h4>
+                                    <p class="text-dark-400 text-sm">提供基于机器学习模型生成的动态信用评分及详细评分卡。</p>
+                                </div>
+                            </div>
+                            <button
+                                class="mt-6 w-full py-2 rounded-lg bg-light-100 hover:bg-primary-600 transition-colors text-primary-600 hover:text-white border border-primary-200 flex items-center justify-center">
+                                <span>查看详情</span>
+                                <i class="fa fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 贷后风险监控 -->
+                    <div
+                        class="bg-white rounded-xl overflow-hidden border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover group">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://p3-flow-imagex-sign.byteimg.com/tos-cn-i-a9rns2rl98/rc/pc/super_tool/0039359b3dc041f2aff103c0135472d0~tplv-a9rns2rl98-image.image?rcl=2025102720563816DC4CE9E01B75BD410C&rk3s=8e244e95&rrcfp=f06b921b&x-expires=1764161834&x-signature=tOp5TKlIiit2GP%2BOnU%2FtT3sMFgA%3D"
+                                alt="贷后风险监控"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <h3 class="text-xl font-bold text-white text-shadow-lg">贷后风险监控</h3>
+                                <p class="text-white/90 text-sm">主动式风控中枢，从人防到机防的转变</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">生物资产数字仓监控</h4>
+                                    <p class="text-dark-400 text-sm">对每笔贷款的抵押物（生猪）进行7×24小时价值监控，实时掌握抵押物价值波动。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">四级预警体系响应</h4>
+                                    <p class="text-dark-400 text-sm">系统自动触发的预警信息，将直接推送至金融机构，并提示建议处置方案。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">自动化监管报告</h4>
+                                    <p class="text-dark-400 text-sm">可按周、月自动生成贷后监管报告，大幅度减轻客户经理工作量。</p>
+                                </div>
+                            </div>
+                            <button
+                                class="mt-6 w-full py-2 rounded-lg bg-light-100 hover:bg-primary-600 transition-colors text-primary-600 hover:text-white border border-primary-200 flex items-center justify-center">
+                                <span>查看详情</span>
+                                <i class="fa fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 资金处置及保险协同 -->
+                    <div
+                        class="bg-white rounded-xl overflow-hidden border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover group">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://p11-doubao-search-sign.byteimg.com/labis/3e6b4c2e4469ff5a1b67eb049ee30a87~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777121813&x-signature=Kvo9wlMovsRAj1RsM4jJnrfoQnk%3D"
+                                alt="资金处置及保险协同"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <h3 class="text-xl font-bold text-white text-shadow-lg">资金处置及保险协同</h3>
+                                <p class="text-white/90 text-sm">风险发生后的终极安全网与快速处置通道</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">一键保险理赔协同</h4>
+                                    <p class="text-dark-400 text-sm">当触发保险理赔条件时，平台提供一站式理赔接口，协助金融机构快速提交索赔材料。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">资产处置通道</h4>
+                                    <p class="text-dark-400 text-sm">提供对接好的下游收购方资源库。在触发违约时，可快速启动"线上竞拍"或"定向出售"程序。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">资金回收保障</h4>
+                                    <p class="text-dark-400 text-sm">最大限度回收资金，保障金融机构资产安全。</p>
+                                </div>
+                            </div>
+                            <button
+                                class="mt-6 w-full py-2 rounded-lg bg-light-100 hover:bg-primary-600 transition-colors text-primary-600 hover:text-white border border-primary-200 flex items-center justify-center">
+                                <span>查看详情</span>
+                                <i class="fa fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 数字牧场看板 -->
+                    <div
+                        class="bg-white rounded-xl overflow-hidden border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover group">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://p26-doubao-search-sign.byteimg.com/tos-cn-i-qvj2lq49k0/38a14a82af384588b181077faaeef292~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777121813&x-signature=W4HWVi3jmt8NKT4PxmJIDYYz4GA%3D"
+                                alt="数字牧场看板"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <h3 class="text-xl font-bold text-white text-shadow-lg">数字牧场看板</h3>
+                                <p class="text-white/90 text-sm">一站式数据中枢，全局掌握经营现状</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">核心指标可视化</h4>
+                                    <p class="text-dark-400 text-sm">实时展示存栏头数、预估总资产、平均日增重、料肉比、环境健康度等关键数据。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">资产价值看板</h4>
+                                    <p class="text-dark-400 text-sm">动态显示"生物资产数字仓"的总估值及曲线变化。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">预警信息中心</h4>
+                                    <p class="text-dark-400 text-sm">集中展示红、橙、黄、绿四级风险警报，关键指标异常预警实时提醒。</p>
+                                </div>
+                            </div>
+                            <button
+                                class="mt-6 w-full py-2 rounded-lg bg-light-100 hover:bg-primary-600 transition-colors text-primary-600 hover:text-white border border-primary-200 flex items-center justify-center">
+                                <span>查看详情</span>
+                                <i class="fa fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 融资服务大厅 -->
+                    <div
+                        class="bg-white rounded-xl overflow-hidden border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover group">
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="https://p3-doubao-search-sign.byteimg.com/tos-cn-i-be4g95zd3a/1917359961813155847~tplv-be4g95zd3a-image.jpeg?rk3s=542c0f93&x-expires=1777121812&x-signature=vC9wjIgaJ5s1jCB9fcEfw7XLupA%3D"
+                                alt="融资服务大厅"
+                                class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+                            <div class="absolute bottom-4 left-4">
+                                <h3 class="text-xl font-bold text-white text-shadow-lg">融资服务大厅</h3>
+                                <p class="text-white/90 text-sm">透明高效的专属金融服务平台</p>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="space-y-4">
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">我的信用钱包</h4>
+                                    <p class="text-dark-400 text-sm">清晰展示由平台计算的实时信用分数、预授信额度及利率区间。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">贷款产品超市</h4>
+                                    <p class="text-dark-400 text-sm">展示多家合作金融机构的贷款产品，并智能推荐匹配方案。</p>
+                                </div>
+                                <div>
+                                    <h4 class="text-dark-300 text-sm font-medium mb-2">一键融资申请</h4>
+                                    <p class="text-dark-400 text-sm">一站式在线申请、签约、放贷流程，实时跟踪审批进度，体验"秒级授权、快速放款"。</p>
+                                </div>
+                            </div>
+                            <button
+                                class="mt-6 w-full py-2 rounded-lg bg-light-100 hover:bg-primary-600 transition-colors text-primary-600 hover:text-white border border-primary-200 flex items-center justify-center">
+                                <span>查看详情</span>
+                                <i class="fa fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据可视化区域 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <!-- 资产健康度分析 -->
+                <div
+                    class="bg-white rounded-xl p-6 border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover">
+                    <h3 class="text-lg font-bold text-light-800 mb-4">资产健康度分析</h3>
+                    <div class="h-80">
+                        <canvas id="assetHealthChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- 贷款地区分布 -->
+                <div
+                    class="bg-white rounded-xl p-6 border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover">
+                    <h3 class="text-lg font-bold text-light-800 mb-4">贷款地区分布</h3>
+                    <div class="h-80">
+                        <canvas id="regionDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 四级预警体系 -->
+            <div
+                class="bg-white rounded-xl p-6 border border-light-200 hover:border-primary-300 transition-colors shadow-card hover:shadow-card-hover mb-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-lg font-bold text-light-800">四级预警体系</h3>
+                    <button class="text-primary-600 hover:text-primary-500 transition-colors text-sm flex items-center">
+                        <span>查看全部</span>
+                        <i class="fa fa-angle-right ml-1"></i>
+                    </button>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="border-b border-light-200">
+                                <th class="py-3 px-4 text-left text-light-600 text-sm font-medium">客户名称</th>
+                                <th class="py-3 px-4 text-left text-light-600 text-sm font-medium">预警类型</th>
+                                <th class="py-3 px-4 text-left text-light-600 text-sm font-medium">预警级别</th>
+                                <th class="py-3 px-4 text-left text-light-600 text-sm font-medium">预警时间</th>
+                                <th class="py-3 px-4 text-left text-light-600 text-sm font-medium">状态</th>
+                                <th class="py-3 px-4 text-left text-light-600 text-sm font-medium">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b border-light-200 hover:bg-light-50 transition-colors">
+                                <td class="py-4 px-4 text-light-800">兴旺养殖场</td>
+                                <td class="py-4 px-4 text-light-600">生物资产价值下跌</td>
+                                <td class="py-4 px-4">
+                                    <span
+                                        class="px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-600">红色</span>
+                                </td>
+                                <td class="py-4 px-4 text-light-600">2025-10-26 08:15</td>
+                                <td class="py-4 px-4">
+                                    <span
+                                        class="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-600">处理中</span>
+                                </td>
+                                <td class="py-4 px-4">
+                                    <button
+                                        class="text-primary-600 hover:text-primary-500 transition-colors text-sm">查看详情</button>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-light-200 hover:bg-light-50 transition-colors">
+                                <td class="py-4 px-4 text-light-800">福满猪场</td>
+                                <td class="py-4 px-4 text-light-600">料肉比异常</td>
+                                <td class="py-4 px-4">
+                                    <span
+                                        class="px-2 py-1 rounded-full text-xs font-medium bg-orange-100 text-orange-600">橙色</span>
+                                </td>
+                                <td class="py-4 px-4 text-light-600">2025-10-26 14:30</td>
+                                <td class="py-4 px-4">
+                                    <span
+                                        class="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-600">待处理</span>
+                                </td>
+                                <td class="py-4 px-4">
+                                    <button
+                                        class="text-primary-600 hover:text-primary-500 transition-colors text-sm">查看详情</button>
+                                </td>
+                            </tr>
+                            <tr class="border-b border-light-200 hover:bg-light-50 transition-colors">
+                                <td class="py-4 px-4 text-light-800">绿源养殖合作社</td>
+                                <td class="py-4 px-4 text-light-600">环境健康度下降</td>
+                                <td class="py-4 px-4">
+                                    <span
+                                        class="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-600">黄色</span>
+                                </td>
+                                <td class="py-4 px-4 text-light-600">2025-10-27 09:45</td>
+                                <td class="py-4 px-4">
+                                    <span
+                                        class="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-600">待处理</span>
+                                </td>
+                                <td class="py-4 px-4">
+                                    <button
+                                        class="text-primary-600 hover:text-primary-500 transition-colors text-sm">查看详情</button>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-light-50 transition-colors">
+                                <td class="py-4 px-4 text-light-800">惠民生态养殖</td>
+                                <td class="py-4 px-4 text-light-600">资金流动性预警</td>
+                                <td class="py-4 px-4">
+                                    <span
+                                        class="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600">绿色</span>
+                                </td>
+                                <td class="py-4 px-4 text-light-600">2025-10-27 11:20</td>
+                                <td class="py-4 px-4">
+                                    <span
+                                        class="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-600">已解决</span>
+                                </td>
+                                <td class="py-4 px-4">
+                                    <button
+                                        class="text-primary-600 hover:text-primary-500 transition-colors text-sm">查看详情</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-white border-t border-primary-200 py-6 shadow-inner">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <div class="w-8 h-8 rounded-lg gold-gradient flex items-center justify-center">
+                            <i class="fa fa-line-chart text-white text-sm"></i>
+                        </div>
+                        <h2 class="text-lg font-bold text-primary-600">养殖产业金融服务平台</h2>
+                    </div>
+                    <p class="text-light-600 text-sm mt-2">围绕养殖产业核心痛点，提供数据智能与金融科技深度融合的解决方案</p>
+                </div>
+                <div class="flex space-x-8">
+                    <div>
+                        <h3 class="text-light-700 text-sm font-medium mb-3">关于我们</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#"
+                                    class="text-light-600 hover:text-primary-600 text-xs transition-colors">公司简介</a>
+                            </li>
+                            <li><a href="#"
+                                    class="text-light-600 hover:text-primary-600 text-xs transition-colors">团队介绍</a>
+                            </li>
+                            <li><a href="#"
+                                    class="text-light-600 hover:text-primary-600 text-xs transition-colors">新闻动态</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-light-700 text-sm font-medium mb-3">产品服务</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#"
+                                    class="text-light-600 hover:text-primary-600 text-xs transition-colors">数字牧场</a>
+                            </li>
+                            <li><a href="#"
+                                    class="text-light-600 hover:text-primary-600 text-xs transition-colors">融资服务</a>
+                            </li>
+                            <li><a href="#"
+                                    class="text-light-600 hover:text-primary-600 text-xs transition-colors">风险监控</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-light-700 text-sm font-medium mb-3">帮助中心</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#"
+                                    class="text-light-600 hover:text-primary-600 text-xs transition-colors">常见问题</a>
+                            </li>
+                            <li><a href="#"
+                                    class="text-light-600 hover:text-primary-600 text-xs transition-colors">使用指南</a>
+                            </li>
+                            <li><a href="#"
+                                    class="text-light-600 hover:text-primary-600 text-xs transition-colors">联系我们</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-light-200 mt-6 pt-6 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-light-600 text-xs">© 2025 养殖产业金融服务平台. 保留所有权利.</p>
+                <div class="flex space-x-4 mt-4 md:mt-0">
+                    <a href="#" class="text-light-600 hover:text-primary-600 transition-colors">
+                        <i class="fa fa-weixin text-sm"></i>
+                    </a>
+                    <a href="#" class="text-light-600 hover:text-primary-600 transition-colors">
+                        <i class="fa fa-weibo text-sm"></i>
+                    </a>
+                    <a href="#" class="text-light-600 hover:text-primary-600 transition-colors">
+                        <i class="fa fa-linkedin text-sm"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // 初始化图表
+        document.addEventListener('DOMContentLoaded', function () {
+            // 资产健康度分析图表
+            const assetHealthCtx = document.getElementById('assetHealthChart').getContext('2d');
+            const assetHealthChart = new Chart(assetHealthCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['正常', '关注', '次级', '可疑', '损失'],
+                    datasets: [{
+                        label: '贷款金额 (亿元)',
+                        data: [52.3, 21.8, 8.5, 3.2, 0.5],
+                        backgroundColor: [
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(239, 68, 68, 0.7)',
+                            'rgba(127, 127, 127, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(239, 68, 68, 1)',
+                            'rgba(127, 127, 127, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                color: 'rgba(0, 0, 0, 0.7)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            },
+                            ticks: {
+                                color: 'rgba(0, 0, 0, 0.7)'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'rgba(0, 0, 0, 0.7)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 贷款地区分布图表
+            const regionDistributionCtx = document.getElementById('regionDistributionChart').getContext('2d');
+            const regionDistributionChart = new Chart(regionDistributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['华东地区', '华南地区', '华北地区', '华中地区', '西部地区'],
+                    datasets: [{
+                        data: [35, 25, 18, 12, 10],
+                        backgroundColor: [
+                            'rgba(251, 191, 36, 0.7)',
+                            'rgba(59, 130, 246, 0.7)',
+                            'rgba(16, 185, 129, 0.7)',
+                            'rgba(245, 158, 11, 0.7)',
+                            'rgba(139, 92, 246, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgba(251, 191, 36, 1)',
+                            'rgba(59, 130, 246, 1)',
+                            'rgba(16, 185, 129, 1)',
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(139, 92, 246, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: 'rgba(0, 0, 0, 0.7)',
+                                padding: 20,
+                                font: {
+                                    size: 12
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // 添加卡片悬停效果
+            const cards = document.querySelectorAll('.shadow-card');
+            cards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.classList.add('shadow-gold');
+                });
+                card.addEventListener('mouseleave', () => {
+                    card.classList.remove('shadow-gold');
+                });
+            });
+
+            // 添加按钮点击效果
+            const buttons = document.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.addEventListener('click', function (e) {
+                    // 模拟按钮点击效果
+                    this.classList.add('transform', 'scale-95');
+                    setTimeout(() => {
+                        this.classList.remove('transform', 'scale-95');
+                    }, 200);
+
+                    // 如果是"查看详情"按钮，显示提示
+                    if (this.textContent.trim().includes('查看详情')) {
+                        e.preventDefault();
+                        alert('功能正在开发中，敬请期待！');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
